@@ -23,6 +23,9 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/utsname.h>
+#ifdef USE_SYSTEMD
+#include <systemd/sd-daemon.h>
+#endif
 
 #include <nc_core.h>
 #include <nc_conf.h>
@@ -525,6 +528,10 @@ nc_run(struct instance *nci)
         return;
     }
 
+#if USE_SYSTEMD
+    sd_notifyf(0, "READY=1\n"
+    "STATUS=Nutcracker is ready to process requests...");
+#endif
     /* run rabbit run */
     for (;;) {
         status = core_loop(ctx);

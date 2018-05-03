@@ -2,7 +2,7 @@
 Description=Twitter's twemproxy nutcracker
 
 [Service]
-Type=simple
+Type=notify
 User=nobody
 Environment="OPTIONS=-c /etc/nutcracker/nutcracker.yml"
 EnvironmentFile=-/etc/sysconfig/nutcracker

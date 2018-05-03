@@ -22,6 +22,9 @@ AM_CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wmissin
 
 AM_LDFLAGS =
 AM_LDFLAGS += -lm -lpthread -rdynamic
+if USE_SYSTEMD
+AM_LDFLAGS += -lsystemd
+endif
 if OS_SOLARIS
 AM_LDFLAGS += -lnsl -lsocket
 endif

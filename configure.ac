@@ -160,6 +160,18 @@ AM_CONDITIONAL([OS_BSD], [test "x$ac_cv_kqueue_works" = "xyes"])
 AM_CONDITIONAL([OS_SOLARIS], [test "x$ac_cv_evports_works" = "xyes"])
 AM_CONDITIONAL([OS_FREEBSD], [test "$(uname -v | cut -c 1-10)" == "FreeBSD 10"])
 
+use_systemd=no
+if test "x$with_systemd" != "xno" ; then
+    PKG_CHECK_MODULES(SYSTEMD, libsystemd-login libsystemd-daemon, use_systemd=yes, use_systemd=no)
+
+    if test "x$use_systemd" = "xyes"; then
+        AC_DEFINE(HAVE_SYSTEMD, 1, [systemd support])
+        AC_SUBST(SYSTEMD_CFLAGS)
+        AC_SUBST(SYSTEMD_LIBS)
+    fi
+fi
+AM_CONDITIONAL(USE_SYSTEMD, test "x$use_systemd" = "xyes")
+
 # Package options
 AC_MSG_CHECKING([whether to enable debug logs and asserts])
 AC_ARG_ENABLE([debug],
